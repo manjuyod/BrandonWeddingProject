@@ -1,7 +1,6 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { signInWithEmail, signInWithGoogle } from "../lib/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,9 +11,15 @@ export default function Login() {
     event.preventDefault();
     setStatus("");
 
-    const { error } = await signInWithEmail(email, password);
-    if (error) {
-      setStatus(error.message);
+    try {
+      const { signInWithEmail } = await import("../lib/auth");
+      const { error } = await signInWithEmail(email, password);
+      if (error) {
+        setStatus(error.message);
+        return;
+      }
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Unable to sign in.");
       return;
     }
 
@@ -22,9 +27,18 @@ export default function Login() {
   }
 
   async function handleGoogle() {
-    const { error } = await signInWithGoogle();
-    if (error) {
-      setStatus(error.message);
+    try {
+      const { signInWithGoogle } = await import("../lib/auth");
+      const { error } = await signInWithGoogle();
+      if (error) {
+        setStatus(error.message);
+      }
+    } catch (error) {
+      setStatus(
+        error instanceof Error
+          ? error.message
+          : "Unable to continue with Google.",
+      );
     }
   }
 

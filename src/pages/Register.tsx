@@ -1,7 +1,6 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signUpWithEmail } from "../lib/auth";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -14,10 +13,17 @@ export default function Register() {
     event.preventDefault();
     setStatus("");
 
-    const { error } = await signUpWithEmail(email, password);
-
-    if (error) {
-      setStatus(error.message);
+    try {
+      const { signUpWithEmail } = await import("../lib/auth");
+      const { error } = await signUpWithEmail(email, password);
+      if (error) {
+        setStatus(error.message);
+        return;
+      }
+    } catch (error) {
+      setStatus(
+        error instanceof Error ? error.message : "Unable to create account.",
+      );
       return;
     }
 

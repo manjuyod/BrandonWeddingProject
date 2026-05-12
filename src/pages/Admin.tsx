@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { getCurrentAuthUser } from "../lib/auth";
-import { signOut } from "../lib/auth";
 
 export default function Admin() {
   const [userEmail, setUserEmail] = useState("");
@@ -8,7 +6,8 @@ export default function Admin() {
 
   useEffect(() => {
     let isMounted = true;
-    getCurrentAuthUser()
+    import("../lib/auth")
+      .then(({ getCurrentAuthUser }) => getCurrentAuthUser())
       .then((user) => {
         if (!isMounted) {
           return;
@@ -27,9 +26,15 @@ export default function Admin() {
   }, []);
 
   async function handleSignOut() {
-    const { error } = await signOut();
-    if (error) {
-      setStatus(error.message);
+    try {
+      const { signOut } = await import("../lib/auth");
+      const { error } = await signOut();
+      if (error) {
+        setStatus(error.message);
+        return;
+      }
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Unable to sign out.");
       return;
     }
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { WeddingUser } from "../types/user";
-import { getAdminStats, getAllUsersForAdmin } from "../lib/users";
 import type { AdminStats } from "../lib/users";
 
 export default function AdminUsers() {
@@ -12,6 +11,8 @@ export default function AdminUsers() {
     let cancelled = false;
 
     const load = async () => {
+      const { getAdminStats, getAllUsersForAdmin } =
+        await import("../lib/users");
       const [allUsers, allStats] = await Promise.all([
         getAllUsersForAdmin(),
         getAdminStats(),
