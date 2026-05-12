@@ -47,7 +47,7 @@ npm run users:create -- \
 ```bash
 npm run users:rsvp -- --email "jane@example.com" --yes
 npm run users:rsvp -- --invite-code "JANE-DOE" --no
-npm run users:rsvp -- --id "<uuid>" --clear
+npm run users:rsvp -- --id "1" --clear
 ```
 
 Use exactly one identifier: `--id`, `--email`, or `--invite-code`. Use exactly one action: `--yes`, `--no`, or `--clear`.
@@ -57,7 +57,7 @@ Use exactly one identifier: `--id`, `--email`, or `--invite-code`. Use exactly o
 ```bash
 npm run users:table -- --email "jane@example.com" --table 5
 npm run users:table -- --invite-code "JANE-DOE" --table 5
-npm run users:table -- --id "<uuid>" --clear
+npm run users:table -- --id "1" --clear
 ```
 
 Use exactly one identifier and exactly one table action.

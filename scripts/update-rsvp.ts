@@ -52,7 +52,7 @@ const updates =
 const { error } = await supabaseAdmin
   .from("users")
   .update(updates)
-  .eq("id", selected.id as string);
+  .eq("id", selected.id);
 
 if (error) {
   console.error("Failed to update RSVP:", error.message);

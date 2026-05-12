@@ -28,6 +28,7 @@ exports/
 .gitnexus
 
 # Agentic specific docs
+spec/
 .claude/
 .codex/
 AGENTS.md

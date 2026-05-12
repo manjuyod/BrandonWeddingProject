@@ -1,7 +1,7 @@
 export type UserRole = "admin" | "couple" | "planner" | "guest";
 
 export interface WeddingUser {
-  id: string;
+  id: number;
   auth_user_id: string | null;
 
   first_name: string;
