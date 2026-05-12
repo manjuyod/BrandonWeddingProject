@@ -1,0 +1,6 @@
+Backend responsibilities (placeholder):
+- schema and migration planning
+- RLS policy design
+- storage bucket/object conventions
+- seed data plan
+- API surface for future server-side operations

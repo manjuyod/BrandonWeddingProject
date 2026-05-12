@@ -1,0 +1,82 @@
+create extension if not exists pgcrypto;
+
+create table if not exists public.users (
+  id uuid primary key default gen_random_uuid(),
+
+  auth_user_id uuid unique references auth.users(id) on delete set null,
+
+  first_name text not null,
+  last_name text not null,
+
+  email text,
+  phone text,
+
+  address_1 text,
+  address_2 text,
+  city text,
+  state text,
+  zip_code text,
+  country text default 'USA',
+
+  guest_of text,
+  guest_tag text,
+
+  invited boolean not null default true,
+  is_child boolean not null default false,
+  is_plus_one boolean not null default false,
+  plus_one_allowed boolean not null default false,
+
+  invite_code text unique,
+
+  rsvp boolean default null,
+  rsvp_submitted_at timestamptz,
+
+  meal_choice text,
+  dietary_notes text,
+  song_request text,
+
+  table_number integer default null,
+
+  role text not null default 'guest',
+
+  notes text,
+  admin_notes text,
+
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  constraint users_role_check
+    check (role in ('admin', 'couple', 'planner', 'guest'))
+);
+
+create index if not exists users_auth_user_id_idx
+  on public.users(auth_user_id);
+
+create index if not exists users_email_idx
+  on public.users(email);
+
+create index if not exists users_invite_code_idx
+  on public.users(invite_code);
+
+create index if not exists users_rsvp_idx
+  on public.users(rsvp);
+
+create index if not exists users_table_number_idx
+  on public.users(table_number);
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists set_users_updated_at on public.users;
+
+create trigger set_users_updated_at
+before update on public.users
+for each row
+execute function public.set_updated_at();
