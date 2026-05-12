@@ -44,6 +44,17 @@ Run SQL in this order:
 
 `auth.users` remains Supabase-managed identity. `public.users` stores wedding app data and links to auth with nullable `auth_user_id` because some guests may never create accounts.
 
+## Specs
+
+The next documentation layer lives in `spec/`:
+
+- `spec/product-and-content.md`
+- `spec/data-and-auth.md`
+- `spec/admin-workflows.md`
+- `spec/backend-api.md`
+- `spec/deployment-and-operations.md`
+- `spec/security.md`
+
 ## App Commands
 
 ```bash

@@ -25,3 +25,10 @@ exports/
 *.njsproj
 *.sln
 *.sw?
+.gitnexus
+
+# Agentic specific docs
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
