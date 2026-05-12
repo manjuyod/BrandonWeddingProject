@@ -15,6 +15,7 @@ as $$
 $$;
 
 revoke all on function public.is_admin_user() from public;
+revoke all on function public.is_admin_user() from anon;
 grant execute on function public.is_admin_user() to authenticated;
 
 create or replace function public.prevent_guest_restricted_user_updates()
@@ -49,6 +50,10 @@ begin
   return new;
 end;
 $$;
+
+revoke all on function public.prevent_guest_restricted_user_updates() from public;
+revoke all on function public.prevent_guest_restricted_user_updates() from anon;
+revoke all on function public.prevent_guest_restricted_user_updates() from authenticated;
 
 drop trigger if exists prevent_guest_restricted_user_updates on public.users;
 create trigger prevent_guest_restricted_user_updates

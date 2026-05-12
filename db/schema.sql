@@ -67,12 +67,17 @@ create index if not exists users_table_number_idx
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
   new.updated_at = now();
   return new;
 end;
 $$;
+
+revoke all on function public.set_updated_at() from public;
+revoke all on function public.set_updated_at() from anon;
+revoke all on function public.set_updated_at() from authenticated;
 
 drop trigger if exists set_users_updated_at on public.users;
 
